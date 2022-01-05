@@ -1,6 +1,7 @@
 package com.mercbuddy.mercenaryassistant.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mercbuddy.mercenaryassistant.util.Column;
@@ -10,7 +11,7 @@ import com.mercbuddy.mercenaryassistant.util.Entity;
  *
  * @Description: 
  * @author 李文浩
- * @createTime - 2021-12-31
+ * @createTime - 2022-01-04
  */
 @Entity(tableName = "game_action_result",label = "")
 public class GameActionResult implements Serializable {
@@ -25,7 +26,7 @@ public class GameActionResult implements Serializable {
 	
     /*操作id*/
 	@Column(label = "action_id")
-	private Integer actionId;
+	private String actionId;
 	
     /*场面评分变化*/
 	@Column(label = "point")
@@ -38,11 +39,23 @@ public class GameActionResult implements Serializable {
     /*天梯排名 -1 表示为 pve*/
 	@Column(label = "rank")
 	private Integer rank;
-	
-    /*创建日期*/
+
+	/*0 机器 1 人类*/
+	@Column(label = "machine")
+	private Integer machine;
+
+	/*创建日期*/
 	@Column(label = "create_time")
 	private Date createTime;
-	
+
+	/*json 串表示操作后结果信息*/
+	@Column(label = "result_info")
+	private String resultInfo;
+
+
+	/*json 串表示操作后结果信息*/
+	@Column(label = "before_info")
+	private String beforeInfo;
 
 	public void setId(Integer value) {
 		this.id = value;
@@ -56,10 +69,10 @@ public class GameActionResult implements Serializable {
 	public Integer getRecordId() {
 		return this.recordId;
 	}
-	public void setActionId(Integer value) {
+	public void setActionId(String value) {
 		this.actionId = value;
 	}
-	public Integer getActionId() {
+	public String getActionId() {
 		return this.actionId;
 	}
 	public void setPoint(Double value) {
@@ -87,6 +100,30 @@ public class GameActionResult implements Serializable {
 	public Date getCreateTime() {
 		return this.createTime;
 	}
+	public Integer getMachine() {
+		return machine;
+	}
+
+	public void setMachine(Integer machine) {
+		this.machine = machine;
+	}
+
+	public String getResultInfo() {
+		return resultInfo;
+	}
+
+	public void setResultInfo(String resultInfo) {
+		this.resultInfo = resultInfo;
+	}
+	public String getBeforeInfo() {
+		return beforeInfo;
+	}
+
+	public void setBeforeInfo(String beforeInfo) {
+		this.beforeInfo = beforeInfo;
+	}
+
+
 
 }
 

@@ -15,8 +15,6 @@ import com.mercbuddy.mercenaryassistant.util.Entity;
 @Entity(tableName = "sys_log",label = "")
 public class Log implements Serializable {
 
-	private static final long serialVersionUID = -5642778561888790994L;
-
     /*主键*/
 	@Column(isPK = true,label = "id")
 	private Integer id;

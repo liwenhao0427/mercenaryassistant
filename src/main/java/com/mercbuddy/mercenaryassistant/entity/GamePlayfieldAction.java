@@ -1,6 +1,7 @@
 package com.mercbuddy.mercenaryassistant.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mercbuddy.mercenaryassistant.util.Column;
@@ -10,18 +11,18 @@ import com.mercbuddy.mercenaryassistant.util.Entity;
  *
  * @Description: 
  * @author 李文浩
- * @createTime - 2021-12-31
+ * @createTime - 2022-01-04
  */
 @Entity(tableName = "game_playfield_action",label = "")
 public class GamePlayfieldAction implements Serializable {
 
-	/*主键，自增*/
+	/*根据 playfield_id 和 actions hash后的结果，确保记录唯一*/
 	@Column(isPK = true,label = "id")
-	private Integer id;
+	private String id;
 	
     /*对局记录 id*/
 	@Column(label = "playfield_id")
-	private Integer playfieldId;
+	private String playfieldId;
 	
     /*仅根据佣兵 hash 结果*/
 	@Column(label = "minions_hash")
@@ -43,21 +44,17 @@ public class GamePlayfieldAction implements Serializable {
 	@Column(label = "actions")
 	private String actions;
 	
-    /*根据 playfield_id 和 actions hash后的结果，确保记录唯一*/
-	@Column(label = "hash")
-	private String hash;
-	
 
-	public void setId(Integer value) {
+	public void setId(String value) {
 		this.id = value;
 	}
-	public Integer getId() {
+	public String getId() {
 		return this.id;
 	}
-	public void setPlayfieldId(Integer value) {
+	public void setPlayfieldId(String value) {
 		this.playfieldId = value;
 	}
-	public Integer getPlayfieldId() {
+	public String getPlayfieldId() {
 		return this.playfieldId;
 	}
 	public void setMinionsHash(String value) {
@@ -89,12 +86,6 @@ public class GamePlayfieldAction implements Serializable {
 	}
 	public String getActions() {
 		return this.actions;
-	}
-	public void setHash(String value) {
-		this.hash = value;
-	}
-	public String getHash() {
-		return this.hash;
 	}
 
 }

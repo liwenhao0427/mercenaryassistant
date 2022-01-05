@@ -1,5 +1,8 @@
 package com.mercbuddy.mercenaryassistant.filter;
 
+import com.mercbuddy.mercenaryassistant.service.CommonService;
+import com.mercbuddy.mercenaryassistant.util.CommonUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -14,6 +17,11 @@ import java.util.Enumeration;
  */
 @Component
 public class SqlInjectionFilter implements Filter {
+//public class SqlInjectionFilter  {
+
+    @Autowired
+    CommonService commonService;
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req=(HttpServletRequest)servletRequest;
@@ -29,33 +37,39 @@ public class SqlInjectionFilter implements Filter {
                 sql = sql + value[i];
             }
         }
-        if (sqlValidate(sql)) {
-            throw new IOException("您发送请求中的参数中含有非法字符");
+        Integer keyWord = sqlValidate(sql);
+        if (sqlValidate(sql) != null) {
+            commonService.insertLog(CommonUtils.getIpAddr(req), req.getHeader("userId"), 0, "非法字符：" + keyWord, "");
+            throw new IOException("您发送请求中的参数中含有非法字符，错误代码" + keyWord);
         } else {
             chain.doFilter(servletRequest,servletResponse);
         }
     }
+
+    // TODO 验证 Token
 
     /**
      * 关键词校验
      * @param str
      * @return
      */
-    public static boolean sqlValidate(String str) {
+    public static Integer sqlValidate(String str) {
         // 统一转为小写
         str = str.toLowerCase();
         // 过滤掉的sql关键字，可以手动添加
-        String badStr = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
-                "char|declare|sitename|net user|xp_cmdshell|;|or|-|+|,|like'|and|exec|execute|insert|create|drop|" +
-                "table|from|grant|use|group_concat|column_name|" +
-                "information_schema.columns|table_schema|union|where|select|delete|update|order|by|count|*|" +
-                "chr|mid|master|truncate|char|declare|or|;|-|--|+|,|like|//|/|%|#";
+//        String badStr = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
+//                "char|declare|sitename|net user|xp_cmdshell|;|or|-|+|like'|and|exec|execute|insert|create|drop|" +
+//                "table|from|grant|use|group_concat|column_name|" +
+//                "information_schema.columns|table_schema|union|where|select|delete|update|order|by|count|*|" +
+//                "chr|mid|master|truncate|char|declare|or|;|-|--|+|,|like|//|/|%|#";
+        String badStr = "'|*|%|;|--|//|/|%|#";
         String[] badStrs = badStr.split("\\|");
         for (int i = 0; i < badStrs.length; i++) {
             if (str.indexOf(badStrs[i]) >= 0) {
-                return true;
+                System.out.println(str);
+                return i;
             }
         }
-        return false;
+        return null;
     }
 }

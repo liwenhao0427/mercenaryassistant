@@ -1,6 +1,7 @@
 package com.mercbuddy.mercenaryassistant.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mercbuddy.mercenaryassistant.util.Column;
@@ -10,12 +11,12 @@ import com.mercbuddy.mercenaryassistant.util.Entity;
  *
  * @Description: 
  * @author 李文浩
- * @createTime - 2021-12-31
+ * @createTime - 2022-01-04
  */
 @Entity(tableName = "game_record",label = "")
 public class GameRecord implements Serializable {
 
-    /*主键自增*/
+	/*主键自增*/
 	@Column(isPK = true,label = "id")
 	private Integer id;
 	
@@ -38,6 +39,10 @@ public class GameRecord implements Serializable {
     /*-1 失败 0 未知 1 胜利 2平局*/
 	@Column(label = "result")
 	private Integer result;
+
+	/*天梯排名 -1 表示为 pve*/
+	@Column(label = "rank")
+	private Integer rank;
 	
     /*创建日期*/
 	@Column(label = "create_time")
@@ -86,6 +91,12 @@ public class GameRecord implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 	public Date getCreateTime() {
 		return this.createTime;
+	}
+	public Integer getRank() {
+		return rank;
+	}
+	public void setRank(Integer rank) {
+		this.rank = rank;
 	}
 
 }

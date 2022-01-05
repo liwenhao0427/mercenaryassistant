@@ -70,6 +70,32 @@ public class GenerateSql {
         return resultStr;
     }
 
+    //生成replace的sql语句
+    public static String replaceIntoSQL(Class<?> clazz, Object object) {
+        StringBuilder str = new StringBuilder();
+        String tableName = getTableName(clazz);
+        str.append("replace into ").append(tableName).append(" (");
+        Field[] fields = clazz.getDeclaredFields();
+        for (int i = 0; i < fields.length - 1; i++) {
+            Column column = fields[i].getAnnotation(Column.class);
+            str.append(column.label()).append(" , ");
+        }
+        Column columns = fields[fields.length - 1].getAnnotation(Column.class);
+        str.append(columns.label()).append(") values(");
+        try {
+            for (int i = 0; i < fields.length - 1; i++) {
+                Column column = fields[i].getAnnotation(Column.class);
+                str.append(getValue(column.label(), object)).append(" , ");
+            }
+            str.append(getValue(columns.label(),object)).append(")");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String resultStr = str.toString();
+        return resultStr;
+    }
+
     //生成insert的sql语句
     public static String insertSQL(Class<?> clazz, Object object) {
         StringBuilder str = new StringBuilder();
@@ -149,8 +175,9 @@ public class GenerateSql {
             return "null";
         }
         String tmpVal = val.toString();
-        if(SqlInjectionFilter.sqlValidate(tmpVal)){
-            throw new IOException("您发送请求中的参数中含有非法字符:"+tmpVal);
+        Integer keyWord = SqlInjectionFilter.sqlValidate(tmpVal);
+        if (keyWord != null) {
+            throw new IOException("您发送请求中的参数中含有非法字符，错误代码" + keyWord);
         }
         if (val instanceof Date ){
             return  "'"+sdf.format(val)+"'";

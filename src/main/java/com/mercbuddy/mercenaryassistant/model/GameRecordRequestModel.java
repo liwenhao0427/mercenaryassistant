@@ -14,12 +14,6 @@ import java.util.List;
  */
 public class GameRecordRequestModel {
 
-    private String userId;
-    private GameRecord gameRecord;
-    private List<GamePlayfield> gamePlayfieldList;
-    private List<GamePlayfieldAction> gamePlayfieldActionList;
-    private List<GameActionResult> gameActionResultList;
-
     public GameRecord getGameRecord() {
         return gameRecord;
     }
@@ -28,27 +22,15 @@ public class GameRecordRequestModel {
         this.gameRecord = gameRecord;
     }
 
-    public List<GamePlayfield> getGamePlayfieldList() {
-        return gamePlayfieldList;
+    public List<PlayfieldActionResult> getPlayfieldActionResultList() {
+        return playfieldActionResultList;
     }
 
-    public void setGamePlayfieldList(List<GamePlayfield> gamePlayfieldList) {
-        this.gamePlayfieldList = gamePlayfieldList;
+    public void setPlayfieldActionResultList(List<PlayfieldActionResult> playfieldActionResultList) {
+        this.playfieldActionResultList = playfieldActionResultList;
     }
 
-    public List<GamePlayfieldAction> getGamePlayfieldActionList() {
-        return gamePlayfieldActionList;
-    }
+    private GameRecord gameRecord;
+    private List<PlayfieldActionResult> playfieldActionResultList;
 
-    public void setGamePlayfieldActionList(List<GamePlayfieldAction> gamePlayfieldActionList) {
-        this.gamePlayfieldActionList = gamePlayfieldActionList;
-    }
-
-    public List<GameActionResult> getGameActionResultList() {
-        return gameActionResultList;
-    }
-
-    public void setGameActionResultList(List<GameActionResult> gameActionResultList) {
-        this.gameActionResultList = gameActionResultList;
-    }
 }

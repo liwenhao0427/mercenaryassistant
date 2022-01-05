@@ -1,6 +1,7 @@
 package com.mercbuddy.mercenaryassistant.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mercbuddy.mercenaryassistant.util.Column;
@@ -10,14 +11,26 @@ import com.mercbuddy.mercenaryassistant.util.Entity;
  *
  * @Description: 
  * @author 李文浩
- * @createTime - 2021-12-31
+ * @createTime - 2022-01-04
  */
 @Entity(tableName = "game_playfield",label = "")
 public class GamePlayfield implements Serializable {
 
-    /*主键*/
+    /*信息相加 hash，确保不重复*/
 	@Column(isPK = true,label = "id")
-	private Integer id;
+	private String id;
+	
+    /*回合数*/
+	@Column(label = "rounds")
+	private Integer rounds;
+	
+    /*我方佣兵名称，排序，逗号隔开*/
+	@Column(label = "own_minions_name")
+	private String ownMinionsName;
+	
+    /*敌方佣兵名称，排序，逗号隔开*/
+	@Column(label = "enemy_minions_name")
+	private String enemyMinionsName;
 	
     /*我方佣兵生命值，根据佣兵顺序排序，逗号隔开*/
 	@Column(label = "own_minions_hp")
@@ -43,28 +56,42 @@ public class GamePlayfield implements Serializable {
 	@Column(label = "enemy_minions_atk")
 	private String enemyMinionsAtk;
 	
-    /*我方佣兵名称，排序，逗号隔开*/
-	@Column(label = "own_minions_name")
-	private String ownMinionsName;
+    /*我方佣兵技能*/
+	@Column(label = "own_minions_ability")
+	private String ownMinionsAbility;
 	
-    /*敌方佣兵名称，排序，逗号隔开*/
-	@Column(label = "enemy_minions_name")
-	private String enemyMinionsName;
-	
-    /*以上信息相加 hash，确保不重复*/
-	@Column(label = "hash")
-	private String hash;
+    /*敌方佣兵技能*/
+	@Column(label = "enemy_minions_ability")
+	private String enemyMinionsAbility;
 	
     /*仅根据佣兵 hash 结果*/
 	@Column(label = "minions_hash")
 	private String minionsHash;
 	
 
-	public void setId(Integer value) {
+	public void setId(String value) {
 		this.id = value;
 	}
-	public Integer getId() {
+	public String getId() {
 		return this.id;
+	}
+	public void setRounds(Integer value) {
+		this.rounds = value;
+	}
+	public Integer getRounds() {
+		return this.rounds;
+	}
+	public void setOwnMinionsName(String value) {
+		this.ownMinionsName = value;
+	}
+	public String getOwnMinionsName() {
+		return this.ownMinionsName;
+	}
+	public void setEnemyMinionsName(String value) {
+		this.enemyMinionsName = value;
+	}
+	public String getEnemyMinionsName() {
+		return this.enemyMinionsName;
 	}
 	public void setOwnMinionsHp(String value) {
 		this.ownMinionsHp = value;
@@ -102,23 +129,17 @@ public class GamePlayfield implements Serializable {
 	public String getEnemyMinionsAtk() {
 		return this.enemyMinionsAtk;
 	}
-	public void setOwnMinionsName(String value) {
-		this.ownMinionsName = value;
+	public void setOwnMinionsAbility(String value) {
+		this.ownMinionsAbility = value;
 	}
-	public String getOwnMinionsName() {
-		return this.ownMinionsName;
+	public String getOwnMinionsAbility() {
+		return this.ownMinionsAbility;
 	}
-	public void setEnemyMinionsName(String value) {
-		this.enemyMinionsName = value;
+	public void setEnemyMinionsAbility(String value) {
+		this.enemyMinionsAbility = value;
 	}
-	public String getEnemyMinionsName() {
-		return this.enemyMinionsName;
-	}
-	public void setHash(String value) {
-		this.hash = value;
-	}
-	public String getHash() {
-		return this.hash;
+	public String getEnemyMinionsAbility() {
+		return this.enemyMinionsAbility;
 	}
 	public void setMinionsHash(String value) {
 		this.minionsHash = value;
