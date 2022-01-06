@@ -174,17 +174,15 @@ public class GenerateSql {
         if (val == null){
             return "null";
         }
-        String tmpVal = val.toString();
-        Integer keyWord = SqlInjectionFilter.sqlValidate(tmpVal);
-        if (keyWord != null) {
-            throw new IOException("您发送请求中的参数中含有非法字符，错误代码" + keyWord);
-        }
         if (val instanceof Date ){
             return  "'"+sdf.format(val)+"'";
-        } else if (val instanceof  String){
-            return "'"+tmpVal+"'";
-        } else if (val instanceof Integer || val instanceof Double || val instanceof Float || val instanceof BigDecimal){
+        }
+        String tmpVal = val.toString();
+        if (val instanceof Integer || val instanceof Double || val instanceof Float || val instanceof BigDecimal){
             return tmpVal;
+        }
+        if (val instanceof String){
+            return "'"+tmpVal+"'";
         }
         return "'"+tmpVal+"'";
     }
